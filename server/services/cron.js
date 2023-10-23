@@ -3,7 +3,7 @@ const cron = require('cron').CronJob;
 
 
 
-const cronStart = new cron('*/5 * * * * *', () => {
+const cronStart = new cron('*/14 * * * *', () => {
 
 
     console.log(`Restart server`);
