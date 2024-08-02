@@ -14,13 +14,12 @@ exports.logged = async (req, res) => {
     console.log(req.body);
     // const user =  await Users.find
     const user = await User.findOneAndUpdate({ username }, { ipAddress: ip }, { new: true });
-
+    
     if (user && user.enabled) {
       //check password ระหว่าง password ปกติ และ password ที่มีการใส่รหัส
       const isMatch = await bcrypt.compare(password, user.password);
-
-      console.log("pass", user.password);
-      //   //const match = await bcrypt.compare(password, user.password);
+      
+     
       if (!isMatch) {
         return res.status(401).json({ error: "Password Invalid" });
       }
@@ -46,6 +45,7 @@ exports.logged = async (req, res) => {
     res.status(400).send("SerVer is Error");
   }
 };
+
 exports.loggedLine = async (req, res) => {
 
   try {
@@ -130,6 +130,7 @@ console.log("➡️  file: authController.js:127  req:", req.user)
     const user = await User.findOne({ username: req.user.username })
       .select("-password")
       .exec();
+    console.log("🚀  file: authController.js:137  user:", user)
 
     res.send(user);
   } catch (error) {

@@ -79,6 +79,7 @@ exports.changStatus = async (req, res) => {
     res.status(400).json({ error: "Server isError" });
   }
 };
+
 // ค้นหา user 1 user และทำการ update
 exports.changeRole = async (req, res) => {
   console.log(req.body);
@@ -117,6 +118,7 @@ res.json(user);
     res.status(400).json({ error: "Server isError" });
   }
 };
+
 
 
 
