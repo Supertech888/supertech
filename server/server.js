@@ -26,6 +26,13 @@ const { swaggerSpec, swaggerUi } = require('./configs/swagger/swagger');
 
 //cron
 const cronStart = require('./services/cron');
+const { cronSendCaseMorning, cronSendCaseEvening } = require('./services/cron_sendCase');
+
+//socket
+const setupSocket = require('./configs/socket/socket');
+
+
+
 
 
 const port = process.env.PORT || 3000
@@ -51,6 +58,8 @@ connectWithRetry()
 const IP = require('ip');
 const axios = require('axios');
 const { connect } = require('http2');
+const bot_telegram = require('./services/bot_telegrsm');
+
 const API_KEY = 'a2526ee543b54eff953197387f67d99d';
 const URL = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + API_KEY;
 
@@ -61,8 +70,26 @@ const sendAPIRequest = async (ipAddress) => {
 
 app.get('/', async (req, res) => {
     res.send('<h1>Im the Flash!!!</h1>')
-    
+
 })
+
+// const io = require('socket.io')(http, {
+//     cors: {
+//         origin: 'http://localhost:8080', // Replace with your frontend URL
+//         methods: ['GET', 'POST'],
+//     },
+// });
+// io.on('connection', (socket) => {
+//     console.log('A user connected');
+
+//     // Handle socket events here
+
+//     socket.on('disconnect', () => {
+//         console.log('User disconnected');
+//     });
+// });
+
+
 //swagger
 // //  เชื่อมต่อ socket
 // io.on('connection', (socket) => {
@@ -110,17 +137,21 @@ app.use('/api', userRouter)
 app.use('/api', LoginAuth)
 app.use('/api', editorRouter)
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/img', express.static('uploads'));
 
 //start cron
 cronStart.start();
+cronSendCaseMorning.start();
+cronSendCaseEvening.start();
+//start setupSocket
+setupSocket(http);
+
+bot_telegram();
 
 
 
 
-
-
-
-app.listen(port, () => console.log(`Server is running MY port ${port} 🚀`));
+http.listen(port, () => console.log(`Server is running MY port ${port} 🚀`));
 
 
 
