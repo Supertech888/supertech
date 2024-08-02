@@ -1,13 +1,18 @@
 const express = require('express');
-const { requestUser, allCase, updateCase, removeCase, findCase, changeStatus, updateDetail, updateCaseDetail } = require('../controllers/caseController');
+const { requestUser, allCase, updateCase, removeCase, findCase, changeStatus, updateDetail, updateCaseDetail,updateMessageId ,deletePicture} = require('../controllers/caseController');
 const { createDetailCase, allDetailCase, createDetailCase2, allDetailCase2, typeData, getTypeData,deleteTypeData } = require('../controllers/detailCaseForm');
+const { upload } = require('../middleware/uploadFile');
+const { authen } = require('../middleware/auth');
+
+
 
 const router = express.Router();
 
 
+
 //สร้าง case 
 
-router.post('/createcase', requestUser)
+router.post('/createcase',upload, requestUser)
 
 //เรียกดูเคสทั้งหมด
 
@@ -21,6 +26,7 @@ router.get('/listcase',allCase)
 router.get('/findcase/:id', findCase)
 
 
+
 // update case
 /**
  * @swagger
@@ -32,10 +38,17 @@ router.get('/findcase/:id', findCase)
 */
 router.put('/change-status/:id', updateCase)
 
-router.put('/change-detail/:id', updateDetail)
+router.put('/change-detail/:id',upload, updateDetail)
+
+router.delete('/deletePicture/:id',deletePicture)
 
 router.post('/change-status', changeStatus)
 
+
+
+
+
+router.post('/updateMessageId', updateMessageId)
 // delete case
 /**
  * @swagger
