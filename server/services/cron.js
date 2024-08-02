@@ -9,8 +9,8 @@ const cronStart = new cron('*/14 * * * *', () => {
     console.log(`Restart server`);
 
     https.get(process.env.BACKEND_URL, (res) => {
-        // console.log("🚀  file: cron.js:12  process.env.BACKEND_URL:", process.env.BACKEND_URL)
-        // console.log("🚀  file: cron.js:12  res:", res.statusCode)
+        console.log("🚀  file: cron.js:12  process.env.BACKEND_URL:", process.env.BACKEND_URL)
+        console.log("🚀  file: cron.js:12  res:", res.statusCode)
         if (res.statusCode === 200) {
             console.log(`Server restarted  every 14 minutes `);
         } else {
