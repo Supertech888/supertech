@@ -1,5 +1,14 @@
 const mongoose = require("mongoose");
 
+
+
+
+const messageIdSchema = mongoose.Schema({
+  messageId: {
+    type: Number,
+  }
+
+});
 const schemaCase = mongoose.Schema(
   {
     caseId: {
@@ -27,25 +36,27 @@ const schemaCase = mongoose.Schema(
     },
     wallet: {
       type: String,
-      required: true, 
+      required: true,
     },
     editors: {
       type: String,
-      default: "@pr0jectsp",
     },
     recorder: {
       type: String,
-      required: true, 
+      required: true,
     },
     status: {
       type: String,
       default: "รอการแก้ไข",
-      required: true, 
     },
     closeCaseBy: {
       type: String,
       default: "",
     },
+    file: String,
+
+    messageId: [messageIdSchema],
+
 
   },
   { timestamps: true }
